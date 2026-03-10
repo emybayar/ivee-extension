@@ -68,71 +68,42 @@
         padding: 16px 18px;
         background: #f7f8fa;
       }
-      label {
-        display: block;
+
+      .tip {
+        background: #ffffff;
+        border: 1px solid #e4e7f0;
+        border-radius: 10px;
+        padding: 12px 14px;
+        margin-bottom: 14px;
+      }
+      .tip-title {
         font-size: 10px;
         font-weight: 700;
         letter-spacing: 0.07em;
         text-transform: uppercase;
         color: #9aa0b4;
-        margin-bottom: 7px;
+        margin-bottom: 6px;
       }
-      .input-row {
-        display: flex;
-        gap: 8px;
-      }
-      input[type="password"] {
-        flex: 1;
-        background: #ffffff;
-        border: 1px solid #e4e7f0;
-        border-radius: 8px;
-        padding: 9px 12px;
-        color: #1a2340;
+      .tip p {
         font-size: 12px;
-        font-family: inherit;
-        outline: none;
-        transition:
-          border-color 0.15s,
-          box-shadow 0.15s;
+        color: #4a5568;
+        line-height: 1.6;
       }
-      input[type="password"]:focus {
-        border-color: #25397a;
-        box-shadow: 0 0 0 3px rgba(79, 110, 247, 0.12);
-      }
-      input[type="password"]::placeholder {
-        color: #c4c9d8;
-      }
-      button {
-        background: #25397a;
-        color: #ffffff;
-        border: none;
-        border-radius: 8px;
-        padding: 9px 14px;
+      .tip strong {
+        color: #25397a;
         font-weight: 600;
+      }
+      .cta-link {
+        display: block;
+        text-align: center;
         font-size: 12px;
-        cursor: pointer;
-        font-family: inherit;
-        transition:
-          background 0.15s,
-          box-shadow 0.15s;
-        white-space: nowrap;
-        box-shadow: 0 2px 8px rgba(79, 110, 247, 0.25);
+        font-weight: 600;
+        color: #25397a;
+        text-decoration: none;
+        padding: 4px 0 2px;
       }
-      button:hover {
-        background: #3d5ef6;
-        box-shadow: 0 4px 12px rgba(79, 110, 247, 0.35);
-      }
-      .msg {
-        margin-top: 8px;
-        font-size: 11px;
-        color: #9aa0b4;
-        min-height: 16px;
-      }
-      .msg.success {
-        color: #34d399;
-      }
-      .msg.error {
-        color: #f87171;
+      .cta-link:hover {
+        text-decoration: underline;
       }
       .divider {
         height: 1px;
@@ -175,24 +146,19 @@
     <div class="header">
       <div>
         <img src="icons/ivee-logo.svg" class="brand-logo" alt="ivee" />
-        <!-- <div class="brand">ivee<span class="dot">.</span></div> -->
         <div class="tagline">Prompt Improver</div>
       </div>
       <div class="status-dot inactive" id="statusDot"></div>
     </div>
 
     <div class="body">
-      <label>OpenAI API Key</label>
-      <div class="input-row">
-        <input
-          type="password"
-          id="apiKey"
-          placeholder="sk-..."
-          autocomplete="off"
-        />
-        <button id="saveBtn">Save</button>
+      <div class="tip">
+        <div class="tip-title">How to Use</div>
+        <p>
+          Highlight any prompt on ChatGPT, Claude, Gemini, or Perplexity and
+          click <strong>Improve with ivee</strong>.
+        </p>
       </div>
-      <div class="msg" id="msg"></div>
 
       <div class="divider"></div>
 
@@ -203,6 +169,12 @@
         <span class="site-pill">Gemini</span>
         <span class="site-pill">Perplexity</span>
       </div>
+
+      <div class="divider"></div>
+
+      <a class="cta-link" href="https://ivee.jobs" target="_blank"
+        >Join ivee for free →</a
+      >
     </div>
 
     <div class="footer">Highlight any prompt text to improve it</div>
