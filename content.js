@@ -132,7 +132,9 @@
 
   // ─── 5. HTML BUILDER ─────────────────────────────────────────────────────
   const HDR =
-    '<div class="ivee-hdr"><span class="ivee-brand">ivee</span><button id="ivee-close" class="ivee-x" aria-label="Close">&#10005;</button></div>';
+    '<div class="ivee-hdr"><img src="' +
+    chrome.runtime.getURL("icons/ivee-logo.svg") +
+    '" class="ivee-logo" alt="ivee" /><button id="ivee-close" class="ivee-x" aria-label="Close">&#10005;</button></div>';
 
   function sc(n) {
     return n >= 7 ? "#4ade80" : n >= 4 ? "#facc15" : "#f87171";

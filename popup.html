@@ -41,7 +41,12 @@
         letter-spacing: -0.01em;
       }
       .brand .dot {
-        color: #4f6ef7;
+        color: #25397a;
+      }
+      .brand-logo {
+        height: 24px;
+        width: auto;
+        display: block;
       }
       .tagline {
         font-size: 11px;
@@ -91,14 +96,14 @@
           box-shadow 0.15s;
       }
       input[type="password"]:focus {
-        border-color: #4f6ef7;
+        border-color: #25397a;
         box-shadow: 0 0 0 3px rgba(79, 110, 247, 0.12);
       }
       input[type="password"]::placeholder {
         color: #c4c9d8;
       }
       button {
-        background: #4f6ef7;
+        background: #25397a;
         color: #ffffff;
         border: none;
         border-radius: 8px;
@@ -169,7 +174,8 @@
   <body>
     <div class="header">
       <div>
-        <div class="brand">ivee<span class="dot">.</span></div>
+        <img src="icons/ivee-logo.svg" class="brand-logo" alt="ivee" />
+        <!-- <div class="brand">ivee<span class="dot">.</span></div> -->
         <div class="tagline">Prompt Improver</div>
       </div>
       <div class="status-dot inactive" id="statusDot"></div>
