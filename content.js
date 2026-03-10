@@ -11,7 +11,7 @@
     setTimeout(() => {
       const sel = window.getSelection();
       const text = sel?.toString().trim();
-      if (text && text.length > 8) {
+      if (text && text.length >= 1 && !panel) {
         lastText = text;
         showTooltip(sel.getRangeAt(0).getBoundingClientRect());
       } else {
@@ -22,6 +22,7 @@
 
   document.addEventListener("mousedown", (e) => {
     if (tooltip && !tooltip.contains(e.target)) hideTooltip();
+    if (panel && !panel.contains(e.target)) closePanel();
   });
 
   // ─── 2. FLOATING TOOLTIP ─────────────────────────────────────────────────
