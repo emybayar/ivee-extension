@@ -8,9 +8,11 @@
 
   "host_permissions": [
     "https://chatgpt.com/*",
+    "https://chat.openai.com/*",
     "https://claude.ai/*",
     "https://gemini.google.com/*",
-    "https://www.perplexity.ai/*"
+    "https://www.perplexity.ai/*",
+    "https://ivee-ext-backend.vercel.app/*"
   ],
 
   "background": {
