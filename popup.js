@@ -1,11 +1,6 @@
 // popup.js
 // Controls the extension popup — the small window that appears
 // when the user clicks the ivee icon in the Chrome toolbar.
-//
-// Responsibilities:
-//   - Load saved API key (masked) to show it's configured
-//   - Save a new API key via background.js message
-//   - Show active/inactive status dot
 
 const apiKeyInput = document.getElementById("apiKey");
 const saveBtn = document.getElementById("saveBtn");
