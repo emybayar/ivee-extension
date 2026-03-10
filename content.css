@@ -1,0 +1,274 @@
+
+/* content.css - ivee tooltip + panel styles
+   Prefixed #ivee- / .ivee- to avoid host-page CSS conflicts. */
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-style: normal;
+  src: url(chrome-extension://__MSG_@@extension_id__/font/Poppins-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-style: normal;
+  src: url(chrome-extension://__MSG_@@extension_id__/font/Poppins-SemiBold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 700;
+  font-style: normal;
+  src: url(chrome-extension://__MSG_@@extension_id__/font/Poppins-Bold.ttf) format('truetype');
+}
+/* ── TOOLTIP ──────────────────────────────────────────────────────── */
+#ivee-tooltip {
+  position: absolute !important;
+  transform: translateX(-50%) !important;
+  z-index: 2147483647 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  background: #ffffff !important;
+  color: #1a2340 !important;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, Inter, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+  padding: 7px 14px !important;
+  border-radius: 20px !important;
+  border: 1px solid #e4e7f0 !important;
+  box-shadow: 0 4px 16px rgba(26,35,64,0.12), 0 1px 4px rgba(26,35,64,0.06) !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  animation: ivee-fadein 0.15s ease !important;
+  transition: box-shadow 0.12s ease, transform 0.12s ease !important;
+}
+#ivee-tooltip:hover {
+  transform: translateX(-50%) scale(1.03) !important;
+  box-shadow: 0 6px 20px rgba(26,35,64,0.16), 0 1px 4px rgba(26,35,64,0.08) !important;
+}
+img.ivee-spark {
+  width: 14px !important;
+  height: 14px !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+@keyframes ivee-fadein {
+  from { opacity: 0; transform: translateX(-50%) translateY(5px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ── PANEL SHELL ──────────────────────────────────────────────────── */
+#ivee-panel {
+  position: fixed !important;
+  top: 0 !important; right: 0 !important;
+  width: 380px !important; max-width: 92vw !important;
+  height: 100vh !important;
+  z-index: 2147483646 !important;
+  transform: translateX(100%) !important;
+  transition: transform 0.28s cubic-bezier(0.22,1,0.36,1) !important;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, Inter, sans-serif !important;
+}
+#ivee-panel.ivee-open { transform: translateX(0) !important; }
+
+.ivee-in {
+  display: flex !important; flex-direction: column !important;
+  height: 100% !important;
+  background-color: #f0f4f9 !important;
+  background-image: linear-gradient(rgba(99,120,180,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(99,120,180,0.04) 1px, transparent 1px) !important;
+  background-size: 12px 12px !important;
+  border-left: 1px solid #e4e7f0 !important;
+  box-shadow: -8px 0 40px rgba(26,35,64,0.1) !important;
+  overflow: hidden !important;
+  color: #1a2340 !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+}
+
+/* ── HEADER ───────────────────────────────────────────────────────── */
+.ivee-hdr {
+  display: flex !important; align-items: center !important;
+  justify-content: space-between !important;
+  padding: 16px 18px !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid #e4e7f0 !important;
+  flex-shrink: 0 !important;
+}
+.ivee-brand {
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  color: #1a2340 !important;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, Inter, sans-serif !important;
+  letter-spacing: -0.01em !important;
+}
+.ivee-brand span {
+  color: #4f6ef7 !important;
+}
+.ivee-x {
+  background: none !important; border: none !important;
+  color: #9aa0b4 !important; font-size: 13px !important;
+  cursor: pointer !important; padding: 5px !important;
+  border-radius: 6px !important; line-height: 1 !important;
+  transition: color 0.12s, background 0.12s !important;
+}
+.ivee-x:hover { color: #1a2340 !important; background: #f0f2f8 !important; }
+
+/* ── LOADING ──────────────────────────────────────────────────────── */
+.ivee-load {
+  flex: 1 !important; display: flex !important; flex-direction: column !important;
+  align-items: center !important; justify-content: center !important;
+  gap: 14px !important; color: #9aa0b4 !important; font-size: 13px !important;
+}
+.ivee-spin {
+  width: 26px !important; height: 26px !important;
+  border: 2px solid #e4e7f0 !important;
+  border-top-color: #4f6ef7 !important;
+  border-radius: 50% !important;
+  animation: ivee-spin 0.7s linear infinite !important;
+}
+@keyframes ivee-spin { to { transform: rotate(360deg); } }
+
+/* ── ERROR ────────────────────────────────────────────────────────── */
+.ivee-err {
+  flex: 1 !important; display: flex !important; flex-direction: column !important;
+  align-items: center !important; justify-content: center !important;
+  text-align: center !important; padding: 30px 24px !important;
+  gap: 8px !important; color: #6b7280 !important;
+}
+.ivee-hint { font-size: 11px !important; color: #9aa0b4 !important; margin-top: 4px !important; }
+
+/* ── BODY ─────────────────────────────────────────────────────────── */
+.ivee-body {
+  flex: 1 !important; overflow-y: auto !important;
+  padding: 18px 18px 28px !important;
+  display: flex !important; flex-direction: column !important;
+}
+.ivee-body::-webkit-scrollbar { width: 3px !important; }
+.ivee-body::-webkit-scrollbar-track { background: transparent !important; }
+.ivee-body::-webkit-scrollbar-thumb { background: #d1d5e0 !important; border-radius: 2px !important; }
+
+/* ── LABELS ───────────────────────────────────────────────────────── */
+.ivee-lbl {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, Inter, sans-serif !important;
+  font-size: 10px !important; font-weight: 700 !important;
+  letter-spacing: 0.07em !important; text-transform: uppercase !important;
+  color: #9aa0b4 !important; margin-bottom: 6px !important;
+}
+.ivee-lbl-imp { color: #4f6ef7 !important; margin-top: 14px !important; }
+
+/* ── TEXT BOXES ───────────────────────────────────────────────────── */
+.ivee-box {
+  border-radius: 10px !important; padding: 12px 14px !important;
+  font-size: 12.5px !important; line-height: 1.65 !important;
+  white-space: pre-wrap !important; word-break: break-word !important;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, Inter, sans-serif !important;
+}
+.ivee-orig {
+  background: #ffffff !important;
+  border: 1px solid #e4e7f0 !important;
+  color: #9aa0b4 !important;
+  max-height: 80px !important; overflow-y: auto !important;
+}
+.ivee-imp {
+  background: #ffffff !important;
+  border: 1px solid #c7d0fb !important;
+  color: #1a2340 !important;
+  max-height: 180px !important; overflow-y: auto !important;
+  box-shadow: 0 2px 8px rgba(79,110,247,0.07) !important;
+}
+
+/* ── BUTTONS ──────────────────────────────────────────────────────── */
+.ivee-acts { display: flex !important; gap: 8px !important; margin-top: 12px !important; }
+.ivee-btn {
+  border: none !important; border-radius: 8px !important;
+  font-size: 12px !important; font-weight: 600 !important;
+  padding: 9px 14px !important; cursor: pointer !important;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, Inter, sans-serif !important;
+  transition: all 0.15s ease !important;
+}
+.ivee-ghost {
+  background: #ffffff !important;
+  color: #6b7280 !important;
+  border: 1px solid #e4e7f0 !important;
+}
+.ivee-ghost:hover { background: #f7f8fa !important; color: #1a2340 !important; }
+.ivee-primary {
+  background: #4f6ef7 !important;
+  color: #ffffff !important;
+  flex: 1 !important;
+  box-shadow: 0 2px 8px rgba(79,110,247,0.25) !important;
+}
+.ivee-primary:hover {
+  background: #3d5ef6 !important;
+  box-shadow: 0 4px 14px rgba(79,110,247,0.35) !important;
+}
+
+/* ── INSIGHT ──────────────────────────────────────────────────────── */
+.ivee-insight {
+  margin-top: 14px !important; padding: 11px 14px !important;
+  background: #eef1fe !important;
+  border-left: 3px solid #4f6ef7 !important;
+  border-radius: 0 8px 8px 0 !important;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, Inter, sans-serif !important;
+  font-size: 11.5px !important; color: #4a5568 !important; line-height: 1.65 !important;
+}
+
+/* ── SCORES ───────────────────────────────────────────────────────── */
+.ivee-scores {
+  margin-top: 16px !important;
+  border-radius: 10px !important;
+  border: 1px solid #e4e7f0 !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+}
+.ivee-row {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, Inter, sans-serif !important;
+  display: flex !important; justify-content: space-between !important;
+  align-items: center !important; padding: 9px 14px !important;
+  font-size: 12px !important; color: #6b7280 !important;
+  border-bottom: 1px solid #f0f2f8 !important;
+}
+.ivee-row:last-child { border-bottom: none !important; }
+.ivee-row-bold {
+  font-weight: 700 !important;
+  color: #1a2340 !important;
+  background: #f7f8fa !important;
+}
+.ivee-row span:last-child { font-weight: 600 !important; }
+
+.ivee-cta {
+  margin-top: 16px !important;
+  padding: 14px 16px !important;
+  background: #ffffff !important;
+  border: 1px solid #e4e7f0 !important;
+  border-radius: 12px !important;
+  text-align: center !important;
+  box-shadow: 0 2px 8px rgba(26,35,64,0.05) !important;
+}
+.ivee-cta p {
+  font-size: 11.5px !important;
+  color: #4a5568 !important;
+  line-height: 1.6 !important;
+  margin-bottom: 10px !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+.ivee-cta a {
+  display: inline-block !important;
+  background: #4f6ef7 !important;
+  color: #ffffff !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
+  box-shadow: 0 2px 8px rgba(79,110,247,0.25) !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+/* ── FOOTER ───────────────────────────────────────────────────────── */
+.ivee-foot {
+  margin-top: 22px !important; text-align: center !important;
+  font-size: 10px !important; color: #c4c9d8 !important;
+  letter-spacing: 0.03em !important;
+}
