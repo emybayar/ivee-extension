@@ -1,10 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "ivee – Prompt Improver",
-  "version": "0.0.1",
-  "description": "Highlight any prompt on an AI platform and instantly improve it with ivee.",
+  "name": "Prompt Improver",
+  "version": "1.0.0",
+  "description": "Highlight your prompt on ChatGPT, Claude, Gemini, or Perplexity and instantly improve it with ivee.",
+  "homepage_url": "https://ivee.jobs",
 
   "permissions": ["storage", "activeTab"],
+
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src https://ivee-ext-backend.vercel.app"
+  },
 
   "host_permissions": [
     "https://chatgpt.com/*",
@@ -36,7 +41,7 @@
 
   "action": {
     "default_popup": "popup.html",
-    "default_title": "ivee Prompt Improver",
+    "default_title": "Prompt Improver by ivee",
     "default_icon": {
       "16": "icons/ivee-icon16.png",
       "48": "icons/ivee-icon48.png",
@@ -53,7 +58,13 @@
   "web_accessible_resources": [
     {
       "resources": ["font/*", "icons/*"],
-      "matches": ["<all_urls>"]
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://claude.ai/*",
+        "https://gemini.google.com/*",
+        "https://www.perplexity.ai/*"
+      ]
     }
   ]
 }

@@ -122,12 +122,23 @@
       setter?.call(el, text);
       el.dispatchEvent(new Event("input", { bubbles: true }));
     } else {
-      const r = document.createRange();
-      r.selectNodeContents(el);
-      const s = window.getSelection();
-      s.removeAllRanges();
-      s.addRange(r);
-      document.execCommand("insertText", false, text);
+      el.focus();
+      el.dispatchEvent(
+        new InputEvent("beforeinput", {
+          inputType: "insertText",
+          data: text,
+          bubbles: true,
+          cancelable: true,
+        }),
+      );
+      el.textContent = text;
+      el.dispatchEvent(new InputEvent("input", { bubbles: true }));
+      // const r = document.createRange();
+      // r.selectNodeContents(el);
+      // const s = window.getSelection();
+      // s.removeAllRanges();
+      // s.addRange(r);
+      // document.execCommand("insertText", false, text);
     }
   }
 

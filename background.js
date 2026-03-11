@@ -1,6 +1,6 @@
 // background.js
 // aervice worker — isolated from any webpage context.
-// stores API key securely and calls OpenAI on behalf of content.js.
+// calls ivee backend on behalf of content.js.
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "IMPROVE_PROMPT") {
