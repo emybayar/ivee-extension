@@ -33,7 +33,7 @@
     tooltip.innerHTML =
       '<img src="' +
       chrome.runtime.getURL("icons/ivee-icon-20.png") +
-      '" class="ivee-spark" />&nbsp;Improve with ivee';
+      '" class="ivee-spark" />&nbsp;improve with ivee';
     tooltip.style.top = rect.bottom + window.scrollY + 8 + "px";
     tooltip.style.left = rect.left + window.scrollX + rect.width / 2 + "px";
     tooltip.addEventListener("click", (e) => {
@@ -133,12 +133,6 @@
       );
       el.textContent = text;
       el.dispatchEvent(new InputEvent("input", { bubbles: true }));
-      // const r = document.createRange();
-      // r.selectNodeContents(el);
-      // const s = window.getSelection();
-      // s.removeAllRanges();
-      // s.addRange(r);
-      // document.execCommand("insertText", false, text);
     }
   }
 
@@ -211,8 +205,8 @@
         ? '<div class="ivee-insight">' + esc(d.whats_wrong) + "</div>"
         : "") +
       scores +
-      '<div class="ivee-cta"><p>this took 10 seconds. imagine what a whole ivee membership does.</p><a href="https://ivee.jobs" target="_blank">check out ivee →</a></div>' +
-      '<div class="ivee-foot">Powered by ivee</div>' +
+      '<div class="ivee-cta"><p>prompting is the tip of the iceberg. learn more about AI with ivee for free.</p><a href="https://ivee.jobs" target="_blank">check out ivee →</a></div>' +
+      '<div class="ivee-foot">© 2026 ivee</div>' +
       "</div></div>"
     );
   }
