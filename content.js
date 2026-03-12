@@ -33,7 +33,7 @@
     tooltip.innerHTML =
       '<img src="' +
       chrome.runtime.getURL("icons/ivee-icon-20.png") +
-      '" class="ivee-spark" />&nbsp;improve with ivee';
+      '" class="ivee-spark" />&nbsp;Improve with ivee';
     tooltip.style.top = rect.bottom + window.scrollY + 8 + "px";
     tooltip.style.left = rect.left + window.scrollX + rect.width / 2 + "px";
     tooltip.addEventListener("click", (e) => {
@@ -215,7 +215,7 @@
         ? '<div class="ivee-insight">' + esc(d.whats_wrong) + "</div>"
         : "") +
       scores +
-      '<div class="ivee-cta"><p>prompting is the tip of the iceberg. learn more about AI with ivee for free.</p><a href="https://ivee.jobs" target="_blank">check out ivee →</a></div>' +
+      '<div class="ivee-cta"><p>Prompting is the tip of the iceberg. Learn more about AI with ivee for free.</p><a href="https://ivee.jobs" target="_blank">Check out ivee →</a></div>' +
       '<div class="ivee-foot">© 2026 ivee</div>' +
       "</div></div>"
     );
