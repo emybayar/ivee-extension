@@ -16,8 +16,7 @@
     "https://chat.openai.com/*",
     "https://claude.ai/*",
     "https://gemini.google.com/*",
-    "https://www.perplexity.ai/*",
-    "https://ivee-ext-backend.vercel.app/*"
+    "https://www.perplexity.ai/*"
   ],
 
   "background": {
@@ -41,7 +40,7 @@
 
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Prompt Improver by ivee",
+    "default_title": "Prompt Improver",
     "default_icon": {
       "16": "icons/ivee-icon16.png",
       "48": "icons/ivee-icon48.png",

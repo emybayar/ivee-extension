@@ -11,7 +11,7 @@
     setTimeout(() => {
       const sel = window.getSelection();
       const text = sel?.toString().trim();
-      if (text && text.length >= 1 && !panel) {
+      if (text && text.length >= 10 && !panel) {
         lastText = text;
         showTooltip(sel.getRangeAt(0).getBoundingClientRect());
       } else {
@@ -91,14 +91,24 @@
     panel.innerHTML = buildHTML("result", { orig, data });
     bindClose();
     panel.querySelector("#ivee-copy")?.addEventListener("click", () => {
-      navigator.clipboard.writeText(data.expert_prompt).then(() => {
-        const btn = panel.querySelector("#ivee-copy");
-        if (!btn) return;
-        btn.textContent = "Copied!";
-        setTimeout(() => {
-          btn.textContent = "Copy";
-        }, 2000);
-      });
+      navigator.clipboard
+        .writeText(data.expert_prompt)
+        .then(() => {
+          const btn = panel.querySelector("#ivee-copy");
+          if (!btn) return;
+          btn.textContent = "Copied!";
+          setTimeout(() => {
+            btn.textContent = "Copy";
+          }, 2000);
+        })
+        .catch(() => {
+          const btn = panel.querySelector("#ivee-copy");
+          if (!btn) return;
+          btn.textContent = "Failed";
+          setTimeout(() => {
+            btn.textContent = "Copy";
+          }, 2000);
+        });
     });
     panel.querySelector("#ivee-replace")?.addEventListener("click", () => {
       injectText(data.expert_prompt);
