@@ -1,6 +1,3 @@
-
-/* content.css - ivee tooltip + panel styles
-   Prefixed #ivee- / .ivee- to avoid host-page CSS conflicts. */
 @font-face {
   font-family: 'Poppins';
   font-weight: 400;
@@ -21,7 +18,7 @@
   font-style: normal;
   src: url(chrome-extension://__MSG_@@extension_id__/font/Poppins-Bold.ttf) format('truetype');
 }
-/* ── TOOLTIP ──────────────────────────────────────────────────────── */
+/* TOOLTIP */
 #ivee-tooltip {
   position: absolute !important;
   transform: translateX(-50%) !important;
@@ -59,7 +56,7 @@ img.ivee-spark {
   to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
-/* ── PANEL SHELL ──────────────────────────────────────────────────── */
+/* PANEL SHELL */
 #ivee-panel {
   position: fixed !important;
   top: 0 !important; right: 0 !important;
@@ -86,7 +83,7 @@ img.ivee-spark {
   line-height: 1.5 !important;
 }
 
-/* ── HEADER ───────────────────────────────────────────────────────── */
+/*  HEADER  */
 .ivee-hdr {
   display: flex !important; align-items: center !important;
   justify-content: space-between !important;
@@ -95,18 +92,7 @@ img.ivee-spark {
   border-bottom: 1px solid #e4e7f0 !important;
   flex-shrink: 0 !important;
 }
-.ivee-brand {
-  font-weight: 700 !important;
-  font-size: 15px !important;
-  color: #1a2340 !important;
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, Inter, sans-serif !important;
-  letter-spacing: -0.01em !important;
-}
-.ivee-brand span {
-  color: #25397a !important;
-}
 .ivee-logo { height: 22px; width: auto; display: block; }
-.ivee-foot-logo { height: 12px; width: auto; opacity: 0.45; }
 .ivee-x {
   background: none !important; border: none !important;
   color: #9aa0b4 !important; font-size: 13px !important;
@@ -116,7 +102,7 @@ img.ivee-spark {
 }
 .ivee-x:hover { color: #1a2340 !important; background: #f0f2f8 !important; }
 
-/* ── LOADING ──────────────────────────────────────────────────────── */
+/* LOADING  */
 .ivee-load {
   flex: 1 !important; display: flex !important; flex-direction: column !important;
   align-items: center !important; justify-content: center !important;
@@ -131,7 +117,7 @@ img.ivee-spark {
 }
 @keyframes ivee-spin { to { transform: rotate(360deg); } }
 
-/* ── ERROR ────────────────────────────────────────────────────────── */
+/*  ERROR  */
 .ivee-err {
   flex: 1 !important; display: flex !important; flex-direction: column !important;
   align-items: center !important; justify-content: center !important;
@@ -140,7 +126,7 @@ img.ivee-spark {
 }
 .ivee-hint { font-size: 11px !important; color: #9aa0b4 !important; margin-top: 4px !important; }
 
-/* ── BODY ─────────────────────────────────────────────────────────── */
+/*  BODY  */
 .ivee-body {
   flex: 1 !important; overflow-y: auto !important;
   padding: 18px 18px 28px !important;
@@ -150,7 +136,7 @@ img.ivee-spark {
 .ivee-body::-webkit-scrollbar-track { background: transparent !important; }
 .ivee-body::-webkit-scrollbar-thumb { background: #d1d5e0 !important; border-radius: 2px !important; }
 
-/* ── LABELS ───────────────────────────────────────────────────────── */
+/*  LABELS  */
 .ivee-lbl {
   font-family: 'Poppins', -apple-system, BlinkMacSystemFont, Inter, sans-serif !important;
   font-size: 10px !important; font-weight: 700 !important;
@@ -159,7 +145,7 @@ img.ivee-spark {
 }
 .ivee-lbl-imp { color: #25397a !important; margin-top: 14px !important; }
 
-/* ── TEXT BOXES ───────────────────────────────────────────────────── */
+/*  TEXT BOXES  */
 .ivee-box {
   border-radius: 10px !important; padding: 12px 14px !important;
   font-size: 12.5px !important; line-height: 1.65 !important;
@@ -180,7 +166,7 @@ img.ivee-spark {
   box-shadow: 0 2px 8px rgba(79,110,247,0.07) !important;
 }
 
-/* ── BUTTONS ──────────────────────────────────────────────────────── */
+/*  BUTTONS  */
 .ivee-acts { display: flex !important; gap: 8px !important; margin-top: 12px !important; }
 .ivee-btn {
   border: none !important; border-radius: 8px !important;
@@ -206,7 +192,7 @@ img.ivee-spark {
   box-shadow: 0 4px 14px rgba(79,110,247,0.35) !important;
 }
 
-/* ── INSIGHT ──────────────────────────────────────────────────────── */
+/*  INSIGHT  */
 .ivee-insight {
   margin-top: 14px !important; padding: 11px 14px !important;
   background: #eef1fe !important;
@@ -216,7 +202,7 @@ img.ivee-spark {
   font-size: 11.5px !important; color: #4a5568 !important; line-height: 1.65 !important;
 }
 
-/* ── SCORES ───────────────────────────────────────────────────────── */
+/*  SCORES  */
 .ivee-scores {
   margin-top: 16px !important;
   border-radius: 10px !important;
@@ -268,7 +254,7 @@ img.ivee-spark {
   font-family: 'Poppins', sans-serif !important;
 }
 
-/* ── FOOTER ───────────────────────────────────────────────────────── */
+/*  FOOTER  */
 .ivee-foot {
   margin-top: 22px !important; text-align: center !important;
   font-size: 10px !important; color: #c4c9d8 !important;

@@ -1,7 +1,3 @@
-// background.js
-// aervice worker — isolated from any webpage context.
-// calls ivee backend on behalf of content.js.
-
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "IMPROVE_PROMPT") {
     handleImprove(message.text, sendResponse);

@@ -1,31 +1,63 @@
 (function () {
-  if (window.__iveeLoaded) return; // guard against double injection
+  if (window.__iveeLoaded) return;
   window.__iveeLoaded = true;
 
   let tooltip = null;
   let panel = null;
   let lastText = "";
 
-  // ─── 1. DETECT SELECTION ────────────────────────────────────────────────
-  document.addEventListener("mouseup", () => {
+  //  DETECT SELECTION
+  document.addEventListener("selectionchange", () => {
     setTimeout(() => {
       const sel = window.getSelection();
       const text = sel?.toString().trim();
-      if (text && text.length >= 10 && !panel) {
-        lastText = text;
-        showTooltip(sel.getRangeAt(0).getBoundingClientRect());
-      } else {
+      if (!text || text.length < 1 || panel) {
         hideTooltip();
+        return;
       }
-    }, 60);
+
+      const anchor = sel.anchorNode?.parentElement;
+      if (!isInsidePromptInput(anchor)) {
+        hideTooltip();
+        return;
+      }
+
+      lastText = text;
+      // need a position to anchor the tooltip — use the selection rect
+      const range = sel.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+      if (rect.width === 0 && rect.height === 0) return; // no visible rect yet
+      showTooltip(rect);
+    }, 100); // slightly longer delay to let the selection settle
   });
+
+  function isInsidePromptInput(el) {
+    if (!el) return false;
+    const host = location.hostname;
+
+    if (host === "chatgpt.com" || host === "chat.openai.com") {
+      return !!el.closest("#prompt-textarea");
+    }
+    if (host === "claude.ai") {
+      return !!el.closest(".ProseMirror[contenteditable='true']");
+    }
+    if (host === "gemini.google.com") {
+      return !!el.closest(".ql-editor[contenteditable='true']");
+    }
+    if (host.includes("perplexity.ai")) {
+      return (
+        !!el.closest('[contenteditable="true"]') || !!el.closest("textarea")
+      );
+    }
+    return false;
+  }
 
   document.addEventListener("mousedown", (e) => {
     if (tooltip && !tooltip.contains(e.target)) hideTooltip();
     if (panel && !panel.contains(e.target)) closePanel();
   });
 
-  // ─── 2. FLOATING TOOLTIP ─────────────────────────────────────────────────
+  // FLOATING TOOLTIP
   function showTooltip(rect) {
     hideTooltip();
     tooltip = document.createElement("div");
@@ -49,7 +81,7 @@
     tooltip = null;
   }
 
-  // ─── 3. SIDE PANEL ──────────────────────────────────────────────────────
+  // SIDE PANEL
   function openPanel(text) {
     closePanel();
     panel = document.createElement("div");
@@ -61,12 +93,7 @@
 
     chrome.runtime.sendMessage({ type: "IMPROVE_PROMPT", text }, (res) => {
       if (chrome.runtime.lastError || !res)
-        return renderErr("Connection error — reload the page.");
-      if (res.error === "NO_API_KEY")
-        return renderErr(
-          "No API key found. Click the ivee icon to add one.",
-          true,
-        );
+        return renderErr("Connection error - reload the page.");
       if (res.error) return renderErr(res.error);
       renderResult(text, res.data);
     });
@@ -116,7 +143,7 @@
     });
   }
 
-  // ─── 4. INJECT INTO LLM INPUT BOX ────────────────────────────────────────
+  // INJECT INTO LLM INPUT BOX
   function injectText(text) {
     const el =
       document.querySelector("#prompt-textarea") ||
@@ -132,7 +159,6 @@
       setter?.call(el, text);
       el.dispatchEvent(new Event("input", { bubbles: true }));
     } else {
-      el.focus();
       el.dispatchEvent(
         new InputEvent("beforeinput", {
           inputType: "insertText",
@@ -146,7 +172,7 @@
     }
   }
 
-  // ─── 5. HTML BUILDER ─────────────────────────────────────────────────────
+  // HTML BUILDER
   const HDR =
     '<div class="ivee-hdr"><img src="' +
     chrome.runtime.getURL("icons/ivee-logo.svg") +
@@ -180,9 +206,6 @@
         '<div class="ivee-err"><p>' +
         esc(ctx.msg) +
         "</p>" +
-        (ctx.isKey
-          ? '<p class="ivee-hint">Click the ivee toolbar icon to set your OpenAI API key.</p>'
-          : "") +
         "</div></div>"
       );
     }
@@ -192,7 +215,11 @@
       row("Specificity", d.specificity_score + "/10", sc(d.specificity_score)) +
       row("Context", d.context_score + "/10", sc(d.context_score)) +
       row("Format", d.format_score + "/10", sc(d.format_score)) +
-      row("Risk", d.hallucination_risk, rc(d.hallucination_risk)) +
+      row(
+        "Hallucination Risk",
+        d.hallucination_risk,
+        rc(d.hallucination_risk),
+      ) +
       row("Overall", d.overall_score + "/10", sc(d.overall_score), true) +
       "</div>";
     return (
