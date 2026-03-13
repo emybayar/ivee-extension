@@ -103,9 +103,9 @@
     panel?.querySelector("#ivee-close")?.addEventListener("click", closePanel);
   }
 
-  function renderErr(msg, isKey) {
+  function renderErr(msg) {
     if (!panel) return;
-    panel.innerHTML = buildHTML("error", { msg, isKey });
+    panel.innerHTML = buildHTML("error", { msg });
     bindClose();
   }
 
