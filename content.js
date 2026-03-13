@@ -6,7 +6,6 @@
   let panel = null;
   let lastText = "";
 
-  //  DETECT SELECTION
   document.addEventListener("selectionchange", () => {
     setTimeout(() => {
       const sel = window.getSelection();
@@ -23,12 +22,11 @@
       }
 
       lastText = text;
-      // need a position to anchor the tooltip — use the selection rect
       const range = sel.getRangeAt(0);
       const rect = range.getBoundingClientRect();
-      if (rect.width === 0 && rect.height === 0) return; // no visible rect yet
+      if (rect.width === 0 && rect.height === 0) return;
       showTooltip(rect);
-    }, 100); // slightly longer delay to let the selection settle
+    }, 100);
   });
 
   function isInsidePromptInput(el) {
@@ -57,7 +55,6 @@
     if (panel && !panel.contains(e.target)) closePanel();
   });
 
-  // FLOATING TOOLTIP
   function showTooltip(rect) {
     hideTooltip();
     tooltip = document.createElement("div");
@@ -81,7 +78,6 @@
     tooltip = null;
   }
 
-  // SIDE PANEL
   function openPanel(text) {
     closePanel();
     panel = document.createElement("div");
@@ -143,14 +139,31 @@
     });
   }
 
-  // INJECT INTO LLM INPUT BOX
   function injectText(text) {
-    const el =
-      document.querySelector("#prompt-textarea") ||
-      document.querySelector('div[contenteditable="true"]') ||
-      document.querySelector("textarea");
+    const host = location.hostname;
+    let el = null;
+
+    if (host === "chatgpt.com" || host === "chat.openai.com") {
+      el = document.querySelector("#prompt-textarea");
+    } else if (host === "claude.ai") {
+      el = document.querySelector(".ProseMirror[contenteditable='true']");
+    } else if (host === "gemini.google.com") {
+      el = document.querySelector(".ql-editor[contenteditable='true']");
+    } else if (host.includes("perplexity.ai")) {
+      el =
+        document.querySelector("textarea") ||
+        document.querySelector('[contenteditable="true"]');
+    }
+
+    if (!el) {
+      el =
+        document.querySelector("textarea") ||
+        document.querySelector('[contenteditable="true"]');
+    }
+
     if (!el) return;
     el.focus();
+
     if (el.tagName === "TEXTAREA" || el.tagName === "INPUT") {
       const setter = Object.getOwnPropertyDescriptor(
         window.HTMLTextAreaElement.prototype,
@@ -159,20 +172,11 @@
       setter?.call(el, text);
       el.dispatchEvent(new Event("input", { bubbles: true }));
     } else {
-      el.dispatchEvent(
-        new InputEvent("beforeinput", {
-          inputType: "insertText",
-          data: text,
-          bubbles: true,
-          cancelable: true,
-        }),
-      );
-      el.textContent = text;
-      el.dispatchEvent(new InputEvent("input", { bubbles: true }));
+      document.execCommand("selectAll", false, null);
+      document.execCommand("insertText", false, text);
     }
   }
 
-  // HTML BUILDER
   const HDR =
     '<div class="ivee-hdr"><img src="' +
     chrome.runtime.getURL("icons/ivee-logo.svg") +
