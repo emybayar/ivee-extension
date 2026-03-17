@@ -1,15 +1,23 @@
 {
   "manifest_version": 3,
   "name": "ivee Prompt Improver",
-  "version": "1.0.0",
+  "version": "1.0",
+  "version_name": "1.0 beta",
   "description": "Highlight your prompt on ChatGPT, Claude, Gemini, or Perplexity and instantly improve it with ivee.",
   "homepage_url": "https://ivee.jobs",
+
+  "icons": {
+    "16": "icons/ivee-icon16.png",
+    "20": "icons/ivee-icon-20.png",
+    "48": "icons/ivee-icon48.png",
+    "128": "icons/ivee-icon128.png"
+  },
 
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'; connect-src https://ivee-ext-backend.vercel.app"
   },
 
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "scripting"],
 
   "host_permissions": [
     "https://chatgpt.com/*",
@@ -46,13 +54,6 @@
       "48": "icons/ivee-icon48.png",
       "128": "icons/ivee-icon128.png"
     }
-  },
-
-  "icons": {
-    "16": "icons/ivee-icon16.png",
-    "20": "icons/ivee-icon-20.png",
-    "48": "icons/ivee-icon48.png",
-    "128": "icons/ivee-icon128.png"
   },
 
   "web_accessible_resources": [

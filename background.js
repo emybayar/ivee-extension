@@ -24,3 +24,32 @@ async function handleImprove(promptText, sendResponse) {
     sendResponse({ error: err.message });
   }
 }
+
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.tabs.query({}, (tabs) => {
+    const matchingUrls = [
+      "https://chatgpt.com/",
+      "https://chat.openai.com/",
+      "https://claude.ai/",
+      "https://gemini.google.com/",
+      "https://www.perplexity.ai/",
+    ];
+
+    for (const tab of tabs) {
+      const matches = matchingUrls.some((url) => tab.url?.startsWith(url));
+      if (!matches || !tab.id) continue;
+
+      chrome.tabs.sendMessage(tab.id, { type: "IVEE_UNLOAD" }, () => {
+        void chrome.runtime.lastError;
+        chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          files: ["content.js"],
+        });
+        chrome.scripting.insertCSS({
+          target: { tabId: tab.id },
+          files: ["content.css"],
+        });
+      });
+    }
+  });
+});

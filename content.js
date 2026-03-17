@@ -1,4 +1,18 @@
-(function () {
+let _iveeLastUrl = location.href;
+const _iveeSpaObserver = new MutationObserver(() => {
+  if (location.href !== _iveeLastUrl) {
+    _iveeLastUrl = location.href;
+    if (!chrome.runtime?.id) {
+      _iveeSpaObserver.disconnect();
+      return;
+    }
+    window.__iveeLoaded = false;
+    _iveeInit();
+  }
+});
+_iveeSpaObserver.observe(document.body, { subtree: true, childList: true });
+
+function _iveeInit() {
   if (window.__iveeLoaded) return;
   window.__iveeLoaded = true;
 
@@ -7,6 +21,7 @@
   let lastText = "";
 
   document.addEventListener("selectionchange", () => {
+    if (!chrome.runtime?.id) return;
     setTimeout(() => {
       const sel = window.getSelection();
       const text = sel?.toString().trim();
@@ -56,13 +71,14 @@
   });
 
   function showTooltip(rect) {
+    if (!chrome.runtime?.id) return;
     hideTooltip();
     tooltip = document.createElement("div");
     tooltip.id = "ivee-tooltip";
     tooltip.innerHTML =
       '<img src="' +
       chrome.runtime.getURL("icons/ivee-icon-20.png") +
-      '" class="ivee-spark" />&nbsp;Improve with ivee';
+      '" class="ivee-spark" alt="" />&nbsp;Improve with ivee';
     tooltip.style.top = rect.bottom + window.scrollY + 8 + "px";
     tooltip.style.left = rect.left + window.scrollX + rect.width / 2 + "px";
     tooltip.addEventListener("click", (e) => {
@@ -89,7 +105,7 @@
 
     chrome.runtime.sendMessage({ type: "IMPROVE_PROMPT", text }, (res) => {
       if (chrome.runtime.lastError || !res)
-        return renderErr("Connection error - reload the page.");
+        return renderErr("Connection error — reload the page.");
       if (res.error) return renderErr(res.error);
       renderResult(text, res.data);
     });
@@ -99,6 +115,7 @@
     panel?.remove();
     panel = null;
   }
+
   function bindClose() {
     panel?.querySelector("#ivee-close")?.addEventListener("click", closePanel);
   }
@@ -116,27 +133,23 @@
     panel.querySelector("#ivee-copy")?.addEventListener("click", () => {
       navigator.clipboard
         .writeText(data.expert_prompt)
-        .then(() => {
-          const btn = panel.querySelector("#ivee-copy");
-          if (!btn) return;
-          btn.textContent = "Copied!";
-          setTimeout(() => {
-            btn.textContent = "Copy";
-          }, 2000);
-        })
-        .catch(() => {
-          const btn = panel.querySelector("#ivee-copy");
-          if (!btn) return;
-          btn.textContent = "Failed";
-          setTimeout(() => {
-            btn.textContent = "Copy";
-          }, 2000);
-        });
+        .then(() => flashBtn("#ivee-copy", "Copied!"))
+        .catch(() => flashBtn("#ivee-copy", "Failed"));
     });
     panel.querySelector("#ivee-replace")?.addEventListener("click", () => {
       injectText(data.expert_prompt);
       closePanel();
     });
+  }
+
+  function flashBtn(selector, label) {
+    const btn = panel?.querySelector(selector);
+    if (!btn) return;
+    const original = btn.textContent;
+    btn.textContent = label;
+    setTimeout(() => {
+      if (btn) btn.textContent = original;
+    }, 2000);
   }
 
   function injectText(text) {
@@ -177,10 +190,13 @@
     }
   }
 
-  const HDR =
-    '<div class="ivee-hdr"><img src="' +
-    chrome.runtime.getURL("icons/ivee-logo.svg") +
-    '" class="ivee-logo" alt="ivee" /><button id="ivee-close" class="ivee-x" aria-label="Close">&#10005;</button></div>';
+  function getHDR() {
+    return (
+      '<div class="ivee-hdr"><img src="' +
+      chrome.runtime.getURL("icons/ivee-logo.svg") +
+      '" class="ivee-logo" alt="ivee" /><button id="ivee-close" class="ivee-x" aria-label="Close panel">&#10005;</button></div>'
+    );
+  }
 
   function sc(n) {
     return n >= 7 ? "#4ade80" : n >= 4 ? "#facc15" : "#f87171";
@@ -199,18 +215,17 @@
     if (state === "loading") {
       return (
         '<div class="ivee-in">' +
-        HDR +
+        getHDR() +
         '<div class="ivee-load"><div class="ivee-spin"></div><p>Improving your prompt\u2026</p></div></div>'
       );
     }
     if (state === "error") {
       return (
         '<div class="ivee-in">' +
-        HDR +
+        getHDR() +
         '<div class="ivee-err"><p>' +
         esc(ctx.msg) +
-        "</p>" +
-        "</div></div>"
+        "</p></div></div>"
       );
     }
     const d = ctx.data;
@@ -228,7 +243,7 @@
       "</div>";
     return (
       '<div class="ivee-in">' +
-      HDR +
+      getHDR() +
       '<div class="ivee-body">' +
       '<div class="ivee-lbl">Original</div>' +
       '<div class="ivee-box ivee-orig">' +
@@ -239,15 +254,16 @@
       esc(d.expert_prompt) +
       "</div>" +
       '<div class="ivee-acts">' +
-      '<button id="ivee-copy"    class="ivee-btn ivee-ghost">Copy</button>' +
+      '<button id="ivee-copy" class="ivee-btn ivee-ghost">Copy</button>' +
       '<button id="ivee-replace" class="ivee-btn ivee-primary">\u2191 Use this prompt</button>' +
       "</div>" +
       (d.whats_wrong
         ? '<div class="ivee-insight">' + esc(d.whats_wrong) + "</div>"
         : "") +
       scores +
-      '<div class="ivee-cta"><p>Prompting is the tip of the iceberg. Learn more about AI with ivee for free.</p><a href="https://ivee.jobs" target="_blank">Check out ivee →</a></div>' +
-      '<div class="ivee-foot">© 2026 ivee</div>' +
+      '<div class="ivee-cta"><p>Prompting is the tip of the iceberg. Learn more about AI with ivee for free.</p>' +
+      '<a href="https://portal.ivee.jobs/?utm_source=prompt_improver&utm_medium=extension&utm_campaign=prompt_ext" target="_blank" rel="noopener noreferrer">Check out ivee \u2192</a></div>' +
+      '<div class="ivee-foot">\u00A9 2026 ivee</div>' +
       "</div></div>"
     );
   }
@@ -266,4 +282,12 @@
       "</span></div>"
     );
   }
-})();
+}
+
+_iveeInit();
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg.type === "IVEE_UNLOAD") {
+    _iveeSpaObserver.disconnect();
+    window.__iveeLoaded = false;
+  }
+});
