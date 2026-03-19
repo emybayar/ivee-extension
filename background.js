@@ -29,7 +29,6 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.tabs.query({}, (tabs) => {
     const matchingUrls = [
       "https://chatgpt.com/",
-      "https://chat.openai.com/",
       "https://claude.ai/",
       "https://gemini.google.com/",
       "https://www.perplexity.ai/",
@@ -41,14 +40,19 @@ chrome.runtime.onInstalled.addListener(() => {
 
       chrome.tabs.sendMessage(tab.id, { type: "IVEE_UNLOAD" }, () => {
         void chrome.runtime.lastError;
-        chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          files: ["content.js"],
-        });
-        chrome.scripting.insertCSS({
-          target: { tabId: tab.id },
-          files: ["content.css"],
-        });
+        chrome.scripting
+          .executeScript({
+            target: { tabId: tab.id },
+            files: ["content.js"],
+          })
+          .catch(() => {});
+
+        chrome.scripting
+          .insertCSS({
+            target: { tabId: tab.id },
+            files: ["content.css"],
+          })
+          .catch(() => {});
       });
     }
   });

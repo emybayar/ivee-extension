@@ -72,7 +72,6 @@ img.ivee-spark {
   background-color: #f0f4f9 !important;
   background-image: linear-gradient(rgba(99,120,180,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(99,120,180,0.04) 1px, transparent 1px) !important;
   background-size: 12px 12px !important;
-  /* border-left: 1px solid #25397a !important; */
   box-shadow: -8px 0 40px rgba(26,35,64,0.1) !important;
   overflow: hidden !important;
   color: #1a2340 !important;
@@ -117,7 +116,6 @@ img.ivee-spark {
   text-align: center !important; padding: 30px 24px !important;
   gap: 8px !important; color: #6b7280 !important;
 }
-.ivee-hint { font-size: 11px !important; color: #9aa0b4 !important; margin-top: 4px !important; }
 .ivee-body {
   flex: 1 !important; overflow-y: auto !important;
   padding: 18px 18px 28px !important;

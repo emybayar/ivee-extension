@@ -77,7 +77,7 @@ function _iveeInit() {
     tooltip.id = "ivee-tooltip";
     tooltip.innerHTML =
       '<img src="' +
-      chrome.runtime.getURL("icons/ivee-icon-20.png") +
+      chrome.runtime.getURL("icons/ivee-icon16.png") +
       '" class="ivee-spark" alt="" />&nbsp;Improve with ivee';
     tooltip.style.top = rect.bottom + window.scrollY + 8 + "px";
     tooltip.style.left = rect.left + window.scrollX + rect.width / 2 + "px";
@@ -285,9 +285,12 @@ function _iveeInit() {
 }
 
 _iveeInit();
-chrome.runtime.onMessage.addListener((msg) => {
-  if (msg.type === "IVEE_UNLOAD") {
-    _iveeSpaObserver.disconnect();
-    window.__iveeLoaded = false;
-  }
-});
+
+if (chrome.runtime?.id) {
+  chrome.runtime.onMessage.addListener((msg) => {
+    if (msg.type === "IVEE_UNLOAD") {
+      _iveeSpaObserver.disconnect();
+      window.__iveeLoaded = false;
+    }
+  });
+}
