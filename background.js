@@ -1,7 +1,24 @@
+let _cachedIsDark = null;
+
+function setIcon(isDark) {
+  _cachedIsDark = isDark;
+  chrome.action.setIcon({
+    path: {
+      16: isDark ? "icons/ivee-icon16-light.png" : "icons/ivee-icon16.png",
+      48: isDark ? "icons/ivee-icon48-light.png" : "icons/ivee-icon48.png",
+      128: isDark ? "icons/ivee-icon128-light.png" : "icons/ivee-icon128.png",
+    },
+  });
+}
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "IMPROVE_PROMPT") {
     handleImprove(message.text, sendResponse);
     return true;
+  }
+
+  if (message.type === "SET_ICON") {
+    setIcon(message.isDark);
   }
 });
 
@@ -11,9 +28,7 @@ async function handleImprove(promptText, sendResponse) {
       "https://ivee-ext-backend.vercel.app/api/improve",
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: promptText }),
       },
     );
@@ -41,17 +56,10 @@ chrome.runtime.onInstalled.addListener(() => {
       chrome.tabs.sendMessage(tab.id, { type: "IVEE_UNLOAD" }, () => {
         void chrome.runtime.lastError;
         chrome.scripting
-          .executeScript({
-            target: { tabId: tab.id },
-            files: ["content.js"],
-          })
+          .executeScript({ target: { tabId: tab.id }, files: ["content.js"] })
           .catch(() => {});
-
         chrome.scripting
-          .insertCSS({
-            target: { tabId: tab.id },
-            files: ["content.css"],
-          })
+          .insertCSS({ target: { tabId: tab.id }, files: ["content.css"] })
           .catch(() => {});
       });
     }

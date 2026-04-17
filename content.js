@@ -20,6 +20,17 @@ function _iveeInit() {
   let panel = null;
   let lastText = "";
 
+  function _iveeSyncIcon() {
+    if (!chrome.runtime?.id) return;
+    const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    chrome.runtime.sendMessage({ type: "SET_ICON", isDark });
+  }
+
+  _iveeSyncIcon();
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", _iveeSyncIcon);
+
   document.addEventListener("selectionchange", () => {
     if (!chrome.runtime?.id) return;
     setTimeout(() => {
@@ -293,4 +304,17 @@ if (chrome.runtime?.id) {
       window.__iveeLoaded = false;
     }
   });
+}
+
+if (chrome.runtime?.id) {
+  const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  chrome.runtime.sendMessage({ type: "SET_ICON", isDark });
+
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", (e) => {
+      if (chrome.runtime?.id) {
+        chrome.runtime.sendMessage({ type: "SET_ICON", isDark: e.matches });
+      }
+    });
 }
