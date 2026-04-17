@@ -114,6 +114,33 @@ function _iveeInit() {
     requestAnimationFrame(() => panel.classList.add("ivee-open"));
     bindClose();
 
+    const all = [
+      "Reading between the lines\u2026",
+      "Teaching your prompt some manners\u2026",
+      "Your prompt walked in, we\u2019re giving it a suit\u2026",
+      "Adding context it didn\u2019t know it needed\u2026",
+      "Polishing the details\u2026",
+      "Your LLM is going to love this\u2026",
+      "Worth the wait, promise\u2026",
+      "Almost ready to impress\u2026",
+    ];
+    const current = panel?.querySelector("#ivee-loading-msg")?.textContent;
+    const remaining = all
+      .filter((m) => m !== current)
+      .sort(() => Math.random() - 0.5);
+    let i = 0;
+    setTimeout(() => {
+      const _iveeLoadingInterval = setInterval(() => {
+        if (i >= remaining.length) {
+          clearInterval(_iveeLoadingInterval);
+          return;
+        }
+        const el = panel?.querySelector("#ivee-loading-msg");
+        if (el) el.textContent = remaining[i];
+        i++;
+      }, 1200);
+    }, 1200);
+
     chrome.runtime.sendMessage({ type: "IMPROVE_PROMPT", text }, (res) => {
       if (chrome.runtime.lastError || !res)
         return renderErr("Connection error — reload the page.");
@@ -210,7 +237,7 @@ function _iveeInit() {
   }
 
   function sc(n) {
-    return n >= 7 ? "#4ade80" : n >= 4 ? "#facc15" : "#f87171";
+    return n >= 9 ? "#4ade80" : n >= 6 ? "#facc15" : "#f87171";
   }
   function rc(r) {
     return r === "Low" ? "#4ade80" : r === "Medium" ? "#facc15" : "#f87171";
@@ -224,10 +251,26 @@ function _iveeInit() {
 
   function buildHTML(state, ctx) {
     if (state === "loading") {
+      const all = [
+        "Reading between the lines\u2026",
+        "Teaching your prompt some manners\u2026",
+        "Your prompt walked in, we\u2019re giving it a suit\u2026",
+        "Adding context it didn\u2019t know it needed\u2026",
+        "Polishing the details\u2026",
+        "Your LLM is going to love this\u2026",
+        "Worth the wait, promise\u2026",
+        "Almost ready to impress\u2026",
+      ];
+      const first = all[Math.floor(Math.random() * all.length)];
       return (
         '<div class="ivee-in">' +
         getHDR() +
-        '<div class="ivee-load"><div class="ivee-spin"></div><p>Improving your prompt\u2026</p></div></div>'
+        '<div class="ivee-load">' +
+        '<div class="ivee-spin"></div>' +
+        '<p id="ivee-loading-msg">' +
+        first +
+        "</p>" +
+        "</div></div>"
       );
     }
     if (state === "error") {
