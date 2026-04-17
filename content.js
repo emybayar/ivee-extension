@@ -256,10 +256,6 @@ function _iveeInit() {
       '<div class="ivee-in">' +
       getHDR() +
       '<div class="ivee-body">' +
-      '<div class="ivee-lbl">Original</div>' +
-      '<div class="ivee-box ivee-orig">' +
-      esc(ctx.orig) +
-      "</div>" +
       '<div class="ivee-lbl ivee-lbl-imp">Improved</div>' +
       '<div class="ivee-box ivee-imp">' +
       esc(d.expert_prompt) +
@@ -267,6 +263,10 @@ function _iveeInit() {
       '<div class="ivee-acts">' +
       '<button id="ivee-copy" class="ivee-btn ivee-ghost">Copy</button>' +
       '<button id="ivee-replace" class="ivee-btn ivee-primary">\u2191 Use this prompt</button>' +
+      "</div>" +
+      '<div class="ivee-lbl" style="margin-top:14px !important;">Original</div>' +
+      '<div class="ivee-box ivee-orig">' +
+      esc(ctx.orig) +
       "</div>" +
       (d.whats_wrong
         ? '<div class="ivee-insight">' + esc(d.whats_wrong) + "</div>"
